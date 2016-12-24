@@ -4,16 +4,7 @@
   <artifactId>gad</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-   <modules>
-    <module>gad-api</module>
+  <modules>
+  	<module>gad-api</module>
   </modules>
-  
-  	<developers>
-		<developer>
-			<name>Abdelraouf HECHAM</name>
-			<email>hecham.abdelraouf@gmail.com</email>
-			<organization>INRIA</organization>
-		</developer>
-	</developers>
-	
 </project>
