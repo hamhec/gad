@@ -6,5 +6,6 @@
   <packaging>pom</packaging>
   <modules>
   	<module>gad-api</module>
+  	<module>gad-visualization</module>
   </modules>
 </project>
