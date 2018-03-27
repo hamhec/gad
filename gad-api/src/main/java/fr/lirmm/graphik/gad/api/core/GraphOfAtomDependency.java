@@ -11,12 +11,14 @@ import fr.lirmm.graphik.gad.api.path.CompactGADPath;
 import fr.lirmm.graphik.graal.api.core.Atom;
 import fr.lirmm.graphik.graal.api.core.AtomSet;
 import fr.lirmm.graphik.graal.api.core.AtomSetException;
+import fr.lirmm.graphik.graal.api.core.Predicate;
 import fr.lirmm.graphik.util.stream.CloseableIterator;
 import fr.lirmm.graphik.util.stream.IteratorException;
 
 public class GraphOfAtomDependency {
 	private HashMap<String, LinkedList<GADEdge>> map;
 	private HashSet<String> leaves;
+	private List<GADEdge> bottoms;
 	
 	/* --------------------------------
 	 * Constructors
@@ -25,6 +27,7 @@ public class GraphOfAtomDependency {
 	public GraphOfAtomDependency() {
 		this.map = new HashMap<String, LinkedList<GADEdge>>();
 		this.leaves = new HashSet<String>();
+		this.bottoms = new LinkedList<GADEdge>();
 	}
 
 	public GraphOfAtomDependency(AtomSet atomset) throws IteratorException {
@@ -37,6 +40,8 @@ public class GraphOfAtomDependency {
 	 * -------------------------------- */
 	public void initialise(AtomSet atomset) throws IteratorException {
 		this.map.clear();
+		this.leaves.clear();
+		this.bottoms.clear();
 		CloseableIterator<Atom> it = atomset.iterator();
 		while (it.hasNext()) {
 			Atom atom = it.next();
@@ -47,8 +52,10 @@ public class GraphOfAtomDependency {
 	public void addLeaf(String atom) {
 		this.leaves.add(atom);
 	}
+	
 	public void updateLeaves(GADEdge edge) throws IteratorException {
 		String targetString = edge.getTarget().toString();
+		
 		LinkedList<GADEdge> edges = this.map.get(targetString);
 		if(null == edges) { // the target has never been tracked before
 			this.addLeaf(targetString);
@@ -71,7 +78,11 @@ public class GraphOfAtomDependency {
 	
 	public void addEdge(GADEdge edge) {
 		try {
-			this.updateLeaves(edge);
+			if(edge.getTarget().toString().contains(Predicate.BOTTOM.toString())) { // it an edge leading to bottom
+				this.bottoms.add(edge);
+			} else { // a normal rule application
+				this.updateLeaves(edge);
+			}
 		} catch (IteratorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,6 +142,10 @@ public class GraphOfAtomDependency {
 			set.add(list.getFirst().getTarget());
 		}
 		return set;
+	}
+	
+	public List<GADEdge> getBottoms() {
+		return this.bottoms;
 	}
 	
 	public boolean isFact(String atomString) { // Checks whether the atom is a starting fact (not derived)

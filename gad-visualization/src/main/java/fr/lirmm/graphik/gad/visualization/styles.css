@@ -1,0 +1,30 @@
+/**/
+node.atom {
+	shape: rounded-box;
+	size-mode: fit;
+	padding: 5px;
+	fill-color: #DEE;
+	stroke-mode: plain;
+	stroke-color: #555;
+	stroke-width: 1px;
+}
+
+node.fact {
+	shape: rounded-box;
+	size-mode: fit;
+	padding: 5px;
+	fill-color: red;
+	text-color: white;
+	stroke-mode: plain;
+	stroke-color: #555;
+	stroke-width: 1px;
+}
+
+node.ruleApplication {
+	shape: box;
+	/*size-mode: fit;*/ size: 0px;
+	fill-color: white;
+	stroke-mode: plain;
+	stroke-color: #555;
+	stroke-width: 0px; 
+}/**/

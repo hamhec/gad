@@ -4,7 +4,7 @@ import fr.lirmm.graphik.gad.api.core.GADEdge;
 import fr.lirmm.graphik.graal.api.core.Atom;
 import fr.lirmm.graphik.graal.api.core.AtomSet;
 import fr.lirmm.graphik.graal.api.core.AtomSetException;
-import fr.lirmm.graphik.graal.core.atomset.graph.DefaultInMemoryGraphAtomSet;
+import fr.lirmm.graphik.graal.core.atomset.graph.DefaultInMemoryGraphStore;
 
 public class CompactGADPath {
 	private GADEdge target;
@@ -14,7 +14,7 @@ public class CompactGADPath {
 	
 	public CompactGADPath(GADEdge edge) {
 		this.target = edge;
-		this.branchingAtoms = new DefaultInMemoryGraphAtomSet();
+		this.branchingAtoms = new DefaultInMemoryGraphStore();
 		this.nonBranchingPath = new GADPath();
 		this.nonBranchingPath.add(edge);
 		this.isDefeasible = false;

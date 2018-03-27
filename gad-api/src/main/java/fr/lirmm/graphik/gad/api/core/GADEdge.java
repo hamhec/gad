@@ -2,6 +2,7 @@ package fr.lirmm.graphik.gad.api.core;
 
 import fr.lirmm.graphik.graal.api.core.Atom;
 import fr.lirmm.graphik.graal.api.core.AtomSet;
+import fr.lirmm.graphik.graal.api.core.Predicate;
 import fr.lirmm.graphik.graal.api.core.Rule;
 import fr.lirmm.graphik.graal.api.core.Substitution;
 import fr.lirmm.graphik.util.stream.CloseableIterator;
@@ -45,10 +46,21 @@ public class GADEdge {
 	}
 	
 	public boolean equals(GADEdge edge) {
-		boolean equal = true;
-		if(this.getRuleApplicationTuple() != edge.getRuleApplicationTuple()) equal = false;
-		if(this.getTarget() != edge.getTarget()) equal = false;
-		return equal;
+		// In case we compare a starting edge
+		if(this.getRuleApplicationTuple() == null) {
+			if(edge.getRuleApplicationTuple() == null) return true;
+			else return false;
+		}
+		else if(edge.getRuleApplicationTuple() == null) return false;
+		
+		// neither are starting edges
+		if(!this.getRuleApplicationTuple().toString().equals(edge.getRuleApplicationTuple().toString())) return false;
+		if(!this.getTarget().toString().equals(edge.getTarget().toString())) return false;
+		return true;
+	}
+	
+	public boolean isBottom() {
+		return this.getTarget().getPredicate().toString().equals(Predicate.BOTTOM.toString());
 	}
 	
 	public String toString() {
